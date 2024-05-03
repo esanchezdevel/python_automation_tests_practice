@@ -5,13 +5,46 @@
 
 import time
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 # Test steps:
 # -----------
 # 1. Open Browser
 driver = webdriver.Chrome()
-time.sleep(5)
+time.sleep(3)
 
 # 2. Go to webpage
-driver.get('https://practicetestautomation.com/practice-test-login/')
-time.sleep(10)
+driver.get("https://practicetestautomation.com/practice-test-login/")
+
+# 3. Fill form inputs with data
+# To create a locator to our inputs attributes, we have to follow the next rule:
+# //tag[@attribute='value'], for example: //input[@id='username'] or //button[@class='btn']
+username_locator = driver.find_element(By.ID, 'username') # get username by the id of the html tag
+password_locator = driver.find_element(By.NAME, 'password') # get password by the name of the html tag
+submit_button_locator = driver.find_element(By.XPATH, '//button[@class=\'btn\']') # get the button using the XPATH format
+
+# type text in form inputs
+username_locator.send_keys('student')
+password_locator.send_keys('Password123')
+
+# 4. Submit the form
+submit_button_locator.click()
+time.sleep(2)
+
+# 5. Validate that the URL where we are redirected is the right one
+actual_url = driver.current_url
+assert actual_url.__contains__('practicetestautomation.com/logged-in-successfully/')
+
+# 6. Validate result page contains success data
+post_title_locator = driver.find_element(By.TAG_NAME, 'h1') # we can use it here, because we know that the page only has one h1 in the full page
+post_logout_locator = driver.find_element(By.LINK_TEXT, 'Log out')
+
+actual_title = post_title_locator.text
+assert actual_title == 'Logged In Successfully'
+
+assert post_logout_locator.is_displayed()
+
+time.sleep(5)
+print('Atomation tests PASSED!!!')
+
+

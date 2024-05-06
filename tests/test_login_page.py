@@ -10,6 +10,8 @@ from selenium.webdriver.common.by import By
 
 class TestPositiveScenarios:
 
+    # The marks are used to execute only specific tests. For example, if we run 
+    # "pytest -m positive" only the tests marked with @pytest.mark.positive will be executed
     @pytest.mark.login
     @pytest.mark.positive
     def test_positive_login(self):

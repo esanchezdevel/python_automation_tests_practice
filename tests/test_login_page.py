@@ -5,7 +5,6 @@
 
 import time
 import pytest
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 class TestPositiveScenarios:
@@ -14,14 +13,10 @@ class TestPositiveScenarios:
     # "pytest -m positive" only the tests marked with @pytest.mark.positive will be executed
     @pytest.mark.login
     @pytest.mark.positive
-    def test_positive_login(self):
+    def test_positive_login(self, driver):
         # Test steps:
         # -----------
-        # 1. Open Browser
-        driver = webdriver.Chrome()
-        time.sleep(3)
-
-        # 2. Go to webpage
+        # 1. Go to webpage
         driver.get("https://practicetestautomation.com/practice-test-login/")
 
         # 3. Fill form inputs with data

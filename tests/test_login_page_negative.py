@@ -4,13 +4,25 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+# Fixture to be executed before and after the tests execution
+@pytest.fixture
+def driver():
+    print('Creating Chrome driver')
+    mydriver = webdriver.Chrome();
+    # Return the mydriver variable using the keyword yield. It's the same as return
+    # But in this case all the things before the yield keywords are executed BEFORE the tests execution
+    yield mydriver
+    # And the things that are after the yield keyword, are executed AFTER the tests execution
+    print('Closing Chrome driver')
+    mydriver.quit()
+
 class TestLoginPageNegative:
 
     @pytest.mark.login
     @pytest.mark.negative
-    def test_negative_username(self):
+    # driver parameter is the parameter returned by the fixture method at the top the class
+    def test_negative_username(self, driver):
         # Open page
-        driver = webdriver.Chrome();
         driver.get("https://practicetestautomation.com/practice-test-login/")
         
         # Type username incorrectUser into username field
@@ -32,9 +44,9 @@ class TestLoginPageNegative:
 
     @pytest.mark.login
     @pytest.mark.negative
-    def test_negative_password(self):
+    # driver parameter is the parameter returned by the fixture method at the top the class
+    def test_negative_password(self, driver):
         # Open page
-        driver = webdriver.Chrome();
         driver.get("https://practicetestautomation.com/practice-test-login/")
         
         # Type username student into username field

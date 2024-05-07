@@ -5,7 +5,8 @@ from selenium import webdriver
 @pytest.fixture
 def driver():
     print('Creating Chrome driver')
-    mydriver = webdriver.Chrome();
+    #mydriver = webdriver.Chrome()
+    mydriver = webdriver.Firefox()
     # Return the mydriver variable using the keyword yield. It's the same as return
     # But in this case all the things before the yield keywords are executed BEFORE the tests execution
     yield mydriver

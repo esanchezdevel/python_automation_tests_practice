@@ -11,7 +11,7 @@ def driver(request):
     elif browser == 'firefox':
         mydriver = webdriver.Firefox()
     else:
-        raise TypeError(f'Expected \'chrome\' or \'firefox\' but got \'{browser}\'')
+        raise TypeError(f'Expected --browser=[\'chrome\'|\'firefox\'] but got \'{browser}\'')
     # Return the mydriver variable using the keyword yield. It's the same as return
     # But in this case all the things before the yield keywords are executed BEFORE the tests execution
     yield mydriver

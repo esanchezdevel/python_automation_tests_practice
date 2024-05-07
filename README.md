@@ -14,3 +14,10 @@
 
 - Execute the command:
     - pytest -m login --html=reports/report.html
+
+# How to run pytests tests in paralell. The number of paralell tests to be executed should not be greated than the number of Cores of the computer
+- Install pytest-xdist
+    - pip install pytest-xdist
+
+- Execute the command:
+    - pytest -m login --html=reports/report.html -n=2

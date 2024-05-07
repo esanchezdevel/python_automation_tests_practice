@@ -21,3 +21,33 @@
 
 - Execute the command:
     - pytest -m login --html=reports/report.html -n=2
+
+# How to Debug pytests
+- Install pytest-vscodedebug library
+    - pip install pytest-vscodedebug
+
+- Create .vscode/launch.json file with content:
+    {
+    "configurations": [
+      {
+        "name": "Python: Remote Attach",
+        "type": "python",
+        "request": "attach",
+        "connect": {
+          "host": "localhost",
+          "port": 10001,
+        },
+        "pathMappings": [
+          {
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "."
+          }
+        ]
+      }
+    ]
+  }
+
+- Connect vscode to be able to debug running manually
+    - py.test --vscodedebug test_testfile.py
+
+- Execute debug

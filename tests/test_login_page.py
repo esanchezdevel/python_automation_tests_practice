@@ -32,7 +32,8 @@ class TestPositiveScenarios:
 
         # 4. Submit the form
         submit_button_locator.click()
-        time.sleep(2)
+        # Implicity wait of 2seconds
+        driver.implicitly_wait(2)
 
         # 5. Validate that the URL where we are redirected is the right one
         actual_url = driver.current_url
@@ -47,7 +48,8 @@ class TestPositiveScenarios:
 
         assert post_logout_locator.is_displayed()
 
-        time.sleep(5)
+        # Implicity wait of 5seconds
+        driver.implicitly_wait(5)
         print('Atomation tests PASSED!!!')
 
 

@@ -3,7 +3,6 @@
 # 2. Once the Virtual environment is created in .venv folder, choose as python interpreter the python of the virtual environment with
 #    Ctrl+Shift+P look for "python: select interpreter" and choose the virtual environment already created
 
-import time
 import pytest
 from selenium.webdriver.common.by import By
 

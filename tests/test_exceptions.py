@@ -21,7 +21,6 @@ class TestExceptions:
         assert row_2_input_locator.is_displayed(), "Row 2 input should be displayed, but it's not"
 
     @pytest.mark.exceptions
-    @pytest.mark.debug
     def test_element_not_interactable_exception(self, driver):
 
         self.open_url_and_click_add_button(driver)
@@ -38,6 +37,38 @@ class TestExceptions:
         confirmation_locator = wait.until(ec.visibility_of_element_located((By.ID, "confirmation")))
         assert confirmation_locator.text == "Row 2 was saved", "Confirmation message must contains saved word, but it's not"
     
+    @pytest.mark.exceptions
+    @pytest.mark.debug
+    def test_invalid_element_state_exception(self, driver):
+
+        # Open the page
+        driver.get("https://practicetestautomation.com/practice-test-exceptions/")
+
+        # Click edit button
+        edit_btn_locator = driver.find_element(By.ID, "edit_btn")
+        edit_btn_locator.click()
+
+        # Get row1 input element and clear it using an explicit wait to avoid run conditions errors
+        row_1_input_locator = driver.find_element(By.XPATH, "//div[@id='row1']/input")
+        wait = WebDriverWait(driver, 10)
+        wait.until(ec.element_to_be_clickable((By.XPATH, "//div[@id='row1']/input")))
+        row_1_input_locator.clear()
+
+        # Set a new text
+        row_1_input_locator.send_keys("sushi")
+
+        # Click save button
+        save_btn_locator = driver.find_element(By.ID, "save_btn")
+        save_btn_locator.click()
+
+        # Check confirmation message is the expected one
+        confirmation_locator = wait.until(ec.visibility_of_element_located((By.ID, "confirmation")))
+        assert confirmation_locator.text == "Row 1 was saved", "Confirmation message must contains saved word, but it's not"
+
+        # Check value of input element changed
+        text = row_1_input_locator.get_attribute("value")
+        assert text == "sushi", "The text must be sushi, but got " + text
+
     def open_url_and_click_add_button(self, driver):
         # Open the url
         driver.get("https://practicetestautomation.com/practice-test-exceptions/")

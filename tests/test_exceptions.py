@@ -35,7 +35,7 @@ class TestExceptions:
 
         driver.find_element(By.XPATH, "//div[@id='row2']/button[@name='Save']").click()
 
-        confirmation_locator = driver.find_element(By.ID, "confirmation")
+        confirmation_locator = wait.until(ec.visibility_of_element_located((By.ID, "confirmation")))
         assert confirmation_locator.text == "Row 2 was saved", "Confirmation message must contains saved word, but it's not"
     
     def open_url_and_click_add_button(self, driver):

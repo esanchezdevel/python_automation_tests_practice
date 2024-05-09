@@ -4,7 +4,9 @@
 #    Ctrl+Shift+P look for "python: select interpreter" and choose the virtual environment already created
 
 import pytest
-from selenium.webdriver.common.by import By
+
+from page_objects.logged_in_successfully_page import LoggedInSuccessfullyPage
+from page_objects.login_page import LoginPage
 
 class TestPositiveScenarios:
 
@@ -13,42 +15,26 @@ class TestPositiveScenarios:
     @pytest.mark.login
     @pytest.mark.positive
     def test_positive_login(self, driver):
-        # Test steps:
-        # -----------
-        # 1. Go to webpage
-        driver.get("https://practicetestautomation.com/practice-test-login/")
+        
+        # initialize our LoginPage class
+        login_page = LoginPage(driver)
 
-        # 3. Fill form inputs with data
-        # To create a locator to our inputs attributes, we have to follow the next rule:
-        # //tag[@attribute='value'], for example: //input[@id='username'] or //button[@class='btn']
-        username_locator = driver.find_element(By.ID, 'username') # get username by the id of the html tag
-        password_locator = driver.find_element(By.NAME, 'password') # get password by the name of the html tag
-        submit_button_locator = driver.find_element(By.XPATH, '//button[@class=\'btn\']') # get the button using the XPATH format
+        # Open page
+        login_page.open()
 
-        # type text in form inputs
-        username_locator.send_keys('student')
-        password_locator.send_keys('Password123')
+        # Type username student into Username field
+        # Type password Password123 into Password field
+        # Push Submit button
+        login_page.execute_login("student", "Password123")
 
-        # 4. Submit the form
-        submit_button_locator.click()
-        # Implicity wait of 2seconds
-        driver.implicitly_wait(2)
+        logged_in_successfully = LoggedInSuccessfullyPage(driver)
+        # Verify new page URL contains practicetestautomation.com/logged-in-successfully/
+        assert logged_in_successfully.expected_url == logged_in_successfully.current_url, "The URL is not the expected one"
+        
+        # Verify new page contains expected text ('Congratulations' or 'successfully logged in')
+        assert logged_in_successfully.header == "Logged In Successfully", "The confirmation text is not the expected one"
 
-        # 5. Validate that the URL where we are redirected is the right one
-        actual_url = driver.current_url
-        assert actual_url.__contains__('practicetestautomation.com/logged-in-successfully/')
-
-        # 6. Validate result page contains success data
-        post_title_locator = driver.find_element(By.TAG_NAME, 'h1') # we can use it here, because we know that the page only has one h1 in the full page
-        post_logout_locator = driver.find_element(By.LINK_TEXT, 'Log out')
-
-        actual_title = post_title_locator.text
-        assert actual_title == 'Logged In Successfully'
-
-        assert post_logout_locator.is_displayed()
-
-        # Implicity wait of 5seconds
-        driver.implicitly_wait(5)
-        print('Atomation tests PASSED!!!')
+        # Verify button Log out is displayed on the new page
+        assert logged_in_successfully.is_logout_button_displayed(), "The logout button is not displayed"
 
 

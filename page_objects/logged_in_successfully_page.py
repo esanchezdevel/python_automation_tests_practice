@@ -22,4 +22,4 @@ class LoggedInSuccessfullyPage(BasePage):
         return super().get_text(self.__header_field)
 
     def is_logout_button_displayed(self) -> bool:
-        return super().is_displayed(self.__log_out_button_field)
+        return super()._is_displayed(self.__log_out_button_field)

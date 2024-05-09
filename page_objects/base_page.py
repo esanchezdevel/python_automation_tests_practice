@@ -36,13 +36,13 @@ class BasePage:
     
     # In this method we capture possible exceptions throws by _find method.
     # and if we capture the exception then return false
-    def is_displayed(self, locator: tuple) -> bool:
+    def _is_displayed(self, locator: tuple) -> bool:
         try:
             return self._find(locator).is_displayed()
         except NoSuchElementException:
             return False
         
-    def open_url(self, url: str):
+    def _open_url(self, url: str):
         self._driver.get(url)
 
     def get_text(self, locator: tuple, time: int = 10) -> str:

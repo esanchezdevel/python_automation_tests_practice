@@ -1,5 +1,6 @@
 # https://practicetestautomation.com/practice-test-exceptions/
 
+from dis import Instruction
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
@@ -38,7 +39,6 @@ class TestExceptions:
         assert confirmation_locator.text == "Row 2 was saved", "Confirmation message must contains saved word, but it's not"
     
     @pytest.mark.exceptions
-    @pytest.mark.debug
     def test_invalid_element_state_exception(self, driver):
 
         # Open the page
@@ -68,6 +68,22 @@ class TestExceptions:
         # Check value of input element changed
         text = row_1_input_locator.get_attribute("value")
         assert text == "sushi", "The text must be sushi, but got " + text
+
+
+    @pytest.mark.exceptions
+    @pytest.mark.debug
+    def test_stale_element_reference_exception(self, driver):
+
+        # Open the page
+        driver.get("https://practicetestautomation.com/practice-test-exceptions/")
+
+        # Push Add button
+        add_btn_locator = driver.find_element(By.ID, "add_btn")
+        add_btn_locator.click()
+
+        # Verify instructions text element is no longer displayed
+        wait = WebDriverWait(driver, 10)
+        assert wait.until(ec.invisibility_of_element_located((By.ID, "instructions"))), "The instructions element should disapear, but it's not"
 
     def open_url_and_click_add_button(self, driver):
         # Open the url

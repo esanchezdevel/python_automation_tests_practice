@@ -12,7 +12,7 @@ class BasePage:
         # The * before the locator means that the tuple is separated in different parameters
         # So, if the tuple is (By.ID, "my_id") with *locator, the method will receive two paramters
         # By.ID and "my_id" automatically. Very cool functionality of python.
-        self._driver.find_element(*locator)
+        return self._driver.find_element(*locator)
 
     def _type(self, locator: tuple, text: str, time: int = 10):
         self._wait_until_element_is_visible(locator, time)
@@ -41,3 +41,10 @@ class BasePage:
             return self._find(locator).is_displayed()
         except NoSuchElementException:
             return False
+        
+    def open_url(self, url: str):
+        self._driver.get(url)
+
+    def get_text(self, locator: tuple, time: int = 10) -> str:
+        self._wait_until_element_is_visible(locator, time)
+        return self._find(locator).text

@@ -83,7 +83,7 @@ class TestExceptions:
 
         # Verify instructions text element is no longer displayed
         wait = WebDriverWait(driver, 10)
-        assert wait.until(ec.invisibility_of_element_located((By.ID, "instructions"))), "The instructions element should disapear, but it's not"
+        assert wait.until(ec.invisibility_of_element_located((By.ID, "instructions")), "Error waiting to element be disapear"), "The instructions element should disapear, but it's not"
 
     def open_url_and_click_add_button(self, driver):
         # Open the url

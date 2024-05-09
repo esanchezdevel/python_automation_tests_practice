@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 
-class LoginSuccessfullyPage:
+class LoggedInSuccessfullyPage:
     _url = "https://practicetestautomation.com/logged-in-successfully/"
 
     __header_field = (By.TAG_NAME, "h1")
@@ -9,13 +9,6 @@ class LoginSuccessfullyPage:
 
     def __init__(self, driver: WebDriver):
         self._driver = driver
-
-    # The arrow str indicates that the method must return and String
-    # The @property annotation indicates that the method is only a property because it doesn't
-    # have any logic and only returns a value
-    @property
-    def current_url(self) -> str:
-        return self._driver.current_url
     
     @property
     def expected_url(self) -> str:

@@ -12,6 +12,7 @@ class ExceptionsPage(BasePage):
     __row2_save_button_element = (By.XPATH, "//div[@id='row2']/button[@name='Save']")
     __confirmation_element = (By.ID, "confirmation")
     __edit_button_element = (By.ID, "edit_btn")
+    __instructions_element = (By.ID, "instructions")
 
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
@@ -42,3 +43,6 @@ class ExceptionsPage(BasePage):
         super()._type(self.__row_1_input_element, food)
         super()._click(self.__row1_save_button_element)
         super()._wait_until_element_is_visible(self.__confirmation_element)
+
+    def are_instructions_displayed(self) -> bool:
+        return super()._is_displayed(self.__instructions_element)

@@ -48,22 +48,11 @@ class TestExceptions:
 
     @pytest.mark.exceptions
     def test_stale_element_reference_exception(self, driver):
+        exceptions_page = ExceptionsPage(driver)
 
         # Open the page
-        driver.get("https://practicetestautomation.com/practice-test-exceptions/")
-
+        exceptions_page.open()
         # Push Add button
-        add_btn_locator = driver.find_element(By.ID, "add_btn")
-        add_btn_locator.click()
-
+        exceptions_page.add_second_row()
         # Verify instructions text element is no longer displayed
-        wait = WebDriverWait(driver, 10)
-        assert wait.until(ec.invisibility_of_element_located((By.ID, "instructions")), "Error waiting to element be disapear"), "The instructions element should disapear, but it's not"
-
-    def open_url_and_click_add_button(self, driver):
-        # Open the url
-        driver.get("https://practicetestautomation.com/practice-test-exceptions/")
-
-        # Click add button
-        add_btn_locator = driver.find_element(By.ID, "add_btn")
-        add_btn_locator.click()
+        assert not exceptions_page.are_instructions_displayed(), "The instructions element should dissapear, but it's still present"

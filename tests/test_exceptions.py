@@ -37,35 +37,14 @@ class TestExceptions:
     
     @pytest.mark.exceptions
     def test_invalid_element_state_exception(self, driver):
+        exceptions_page = ExceptionsPage(driver)
 
         # Open the page
-        driver.get("https://practicetestautomation.com/practice-test-exceptions/")
-
-        # Click edit button
-        edit_btn_locator = driver.find_element(By.ID, "edit_btn")
-        edit_btn_locator.click()
-
-        # Get row1 input element and clear it using an explicit wait to avoid run conditions errors
-        row_1_input_locator = driver.find_element(By.XPATH, "//div[@id='row1']/input")
-        wait = WebDriverWait(driver, 10)
-        wait.until(ec.element_to_be_clickable((By.XPATH, "//div[@id='row1']/input")))
-        row_1_input_locator.clear()
-
-        # Set a new text
-        row_1_input_locator.send_keys("sushi")
-
-        # Click save button
-        save_btn_locator = driver.find_element(By.ID, "save_btn")
-        save_btn_locator.click()
-
-        # Check confirmation message is the expected one
-        confirmation_locator = wait.until(ec.visibility_of_element_located((By.ID, "confirmation")))
-        assert confirmation_locator.text == "Row 1 was saved", "Confirmation message must contains saved word, but it's not"
-
-        # Check value of input element changed
-        text = row_1_input_locator.get_attribute("value")
-        assert text == "sushi", "The text must be sushi, but got " + text
-
+        exceptions_page.open()
+        # Modify the text of row1 input from Pizza to Sushi
+        exceptions_page.modify_row1_input("Sushi")
+        # Verify that the confirmation message is the expected one
+        assert exceptions_page.confirmation_message == "Row 1 was saved", "Confirmation message must contains saved word, but it's not"
 
     @pytest.mark.exceptions
     def test_stale_element_reference_exception(self, driver):

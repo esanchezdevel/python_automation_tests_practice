@@ -18,6 +18,10 @@ class BasePage:
         self._wait_until_element_is_visible(locator, time)
         self._find(locator).send_keys(text)
 
+    def _clear(self, locator: tuple, text: str, time: int = 10):
+        self._wait_until_element_is_visible(locator, time)
+        self._find(locator).clear()
+
     def _click(self, locator: tuple, time: int = 10):
         self._wait_until_element_is_visible(locator, time)
         self._find(locator).click()
@@ -26,6 +30,10 @@ class BasePage:
     def _wait_until_element_is_visible(self, locator: tuple, time: int = 10):
         wait = WebDriverWait(self._driver, time)
         wait.until(ec.visibility_of_element_located(locator))
+
+    def _wait_until_element_is_clickable(self, locator: tuple, time: int = 10):
+        wait = WebDriverWait(self._driver, time)
+        wait.until(ec.element_to_be_clickable(locator))
 
     # The arrow str indicates that the method must return and String
     # The @property annotation indicates that the method is only a property because it doesn't

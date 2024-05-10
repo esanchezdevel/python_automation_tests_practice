@@ -24,3 +24,12 @@ class ExceptionsPage(BasePage):
     
     def is_row2_displayed(self) -> bool:
         return super()._is_displayed(self.__row_2_input_element)
+    
+    def add_second_food(self, food: str):
+        super()._type(self.__row_2_input_element, food)
+        super()._click(self.__row2_save_button_element)
+        super()._wait_until_element_is_visible(self.__confirmation_element)
+
+    @property
+    def confirmation_message(self) -> str:
+        return super().get_text(self.__confirmation_element)

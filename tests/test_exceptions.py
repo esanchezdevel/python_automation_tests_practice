@@ -1,25 +1,26 @@
 # https://practicetestautomation.com/practice-test-exceptions/
 
-from dis import Instruction
+import time
 import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
+from page_objects.exceptions_page import ExceptionsPage
+
 class TestExceptions:
 
     @pytest.mark.exceptions
+    @pytest.mark.debug
     def test_no_such_element_exception(self, driver):
-        
-        self.open_url_and_click_add_button(driver)
+        exceptions_page = ExceptionsPage(driver)
 
-        # Explicit wait to wait until row2 input is present.
-        wait = WebDriverWait(driver, 10) # 10 is the timeout to wait
-        row_2_input_locator = wait.until(ec.presence_of_element_located((By.XPATH, "//div[@id='row2']/input")))
-
-        # Check that row2 appears
-        #driver.implicitly_wait(6)
-        assert row_2_input_locator.is_displayed(), "Row 2 input should be displayed, but it's not"
+        # Open the page
+        exceptions_page.open()
+        # Add the second row
+        exceptions_page.add_second_row()
+        # Verify row2 is displayed
+        assert exceptions_page.is_row2_displayed(), "Row 2 input should be displayed, but it's not"
 
     @pytest.mark.exceptions
     def test_element_not_interactable_exception(self, driver):
@@ -71,7 +72,6 @@ class TestExceptions:
 
 
     @pytest.mark.exceptions
-    @pytest.mark.debug
     def test_stale_element_reference_exception(self, driver):
 
         # Open the page

@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 
 from page_objects.base_page import BasePage
@@ -12,6 +11,7 @@ class LoginPage(BasePage):
     __username_field = (By.ID, "username")
     __password_field = (By.ID, "password")
     __submit_button = (By.XPATH, "//button[@class='btn']")
+    __error_message = (By.ID, 'error')
 
     def __init__(self, driver: WebDriver):
         # Call to the superclass init method
@@ -28,4 +28,6 @@ class LoginPage(BasePage):
         # Click the submit button
         super()._click(self.__submit_button)
 
-    
+    @property
+    def error_message(self) -> str:
+        return super().get_text(self.__error_message, 3)

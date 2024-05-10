@@ -3,6 +3,8 @@ import time
 import pytest
 from selenium.webdriver.common.by import By
 
+from page_objects.login_page import LoginPage
+
 class TestLoginPageNegative:
 
     @pytest.mark.login
@@ -14,25 +16,14 @@ class TestLoginPageNegative:
     # driver parameter is the parameter returned by the fixture method at the top the class
     # The other parameters are the ones defined in the parametrize mark above
     def test_negative_login(self, driver, username, password, expected_error_message):
-        # Open page
-        driver.get("https://practicetestautomation.com/practice-test-login/")
-        
-        # Type username incorrectUser into username field
-        username_locator = driver.find_element(By.ID, 'username')
-        username_locator.send_keys(username)
-        
-        # Type password Password123 into password field
-        password_locator = driver.find_element(By.ID, 'password')
-        password_locator.send_keys(password)
-        # Click submit button
-        submit_button_locator = driver.find_element(By.ID, 'submit')
-        submit_button_locator.click()
-        time.sleep(3)
+        login_page = LoginPage(driver)
 
-        # Verify error message is displayed
-        error_message_locator = driver.find_element(By.ID, 'error')
-        assert error_message_locator.is_displayed(), 'ERROR: is not displayed but it should'
-        assert error_message_locator.text == expected_error_message, 'Error message expected is not present'
+        # Open page
+        login_page.open()
+        login_page.execute_login(username, password)
+        
+        # Verify error message is displayed with expected message
+        assert login_page.error_message == expected_error_message, 'Error message expected is not present'
 
     # driver parameter is the parameter returned by the fixture method at the top the class
     def test_negative_username(self, driver):
